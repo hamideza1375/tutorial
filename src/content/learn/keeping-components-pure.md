@@ -1,10 +1,13 @@
 ---
-title: Keeping Components Pure
+title: Keeping Components Pure(خالص نگه داشتن components ها )
 ---
 
 <Intro>
 
 Some JavaScript functions are *pure.* Pure functions only perform a calculation and nothing more. By strictly only writing your components as pure functions, you can avoid an entire class of baffling bugs and unpredictable behavior as your codebase grows. To get these benefits, though, there are a few rules you must follow.
+
+/////
+برخی از توابع جاوا اسکریپت *خالص هستند.* توابع خالص فقط یک محاسبه را انجام می دهند و نه بیشتر. با صرفاً نوشتن component های خود به عنوان توابع خالص، می توانید از یک کلاس کامل از اشکالات گیج کننده و رفتار غیرقابل پیش بینی با رشد پایگاه کد خود جلوگیری کنید. اما برای به دست آوردن این مزایا، چند قانون وجود دارد که باید رعایت کنید.
 
 </Intro>
 
@@ -14,18 +17,33 @@ Some JavaScript functions are *pure.* Pure functions only perform a calculation 
 * How to keep components pure by keeping changes out of the render phase
 * How to use Strict Mode to find mistakes in your components
 
+////
+
+* خلوص چیست و چگونه به شما کمک می کند تا از اشکالات جلوگیری کنید
+* نحوه خالص نگه داشتن اجزا با دور نگه داشتن تغییرات از فاز رندر
+* نحوه استفاده از حالت سختگیرانه برای یافتن اشتباهات در اجزای خود
+
 </YouWillLearn>
 
-## Purity: Components as formulas {/*purity-components-as-formulas*/}
+## Purity: Components as formulas(خلوص: کامپوننت ها به عنوان فرمول) {/*purity-components-as-formulas*/}
+
+>به دلیل اینکه React بر اساس این مفهوم طراحی شده است، هر کامپوننتی که شما می نویسید، یک تابع خالص فرض می شود. این بدان معناست که کامپوننت های React شما باید همیشه JSX یکسانی را با توجه به ورودی های یکسان خود بازگردانند. به عبارت دیگر، کامپوننت های شما باید همیشه همان خروجی را تولید کنند، بدون توجه به ترتیب رندرینگ موارد.    
+
 
 In computer science (and especially the world of functional programming), [a pure function](https://wikipedia.org/wiki/Pure_function) is a function with the following characteristics:
 
 * **It minds its own business.** It does not change any objects or variables that existed before it was called.
 * **Same inputs, same output.** Given the same inputs, a pure function should always return the same result.
 
-You might already be familiar with one example of pure functions: formulas in math.
+////
+در علوم کامپیوتر (و به ویژه در دنیای برنامه نویسی تابعی)، تابع خالص تابعی است با ویژگی های زیر:
+
+* **به کار خودش فکر می کند.** هیچ شی یا متغیری را که قبل از فراخوانی وجود داشته است تغییر نمی دهد.
+* **ورودی های یکسان، خروجی یکسان.** با توجه به ورودی های یکسان، یک تابع خالص همیشه باید همان نتیجه را برگرداند.
+
 
 Consider this math formula: <Math><MathI>y</MathI> = 2<MathI>x</MathI></Math>.
+این فرمول ریاضی را در نظر بگیرید: <Math><MathI>y</MathI> = 2<MathI>x</MathI></Math>.
 
 If <Math><MathI>x</MathI> = 2</Math> then <Math><MathI>y</MathI> = 4</Math>. Always. 
 
@@ -36,6 +54,7 @@ If <Math><MathI>x</MathI> = 3</Math>, <MathI>y</MathI> won't sometimes be <Math>
 If <Math><MathI>y</MathI> = 2<MathI>x</MathI></Math> and <Math><MathI>x</MathI> = 3</Math>, <MathI>y</MathI> will _always_ be <Math>6</Math>. 
 
 If we made this into a JavaScript function, it would look like this:
+اگر این را به یک تابع جاوا اسکریپت تبدیل کنیم، به شکل زیر خواهد بود:
 
 ```js
 function double(number) {
@@ -46,6 +65,11 @@ function double(number) {
 In the above example, `double` is a **pure function.** If you pass it `3`, it will return `6`. Always.
 
 React is designed around this concept. **React assumes that every component you write is a pure function.** This means that React components you write must always return the same JSX given the same inputs:
+
+////
+در مثال بالا، double یک تابع خالص است. اگر از آن 3 عبور کنید، 6 برمی گردد. همیشه.
+
+React حول این مفهوم طراحی شده است. **React فرض می کند که هر کامپوننت ای که می نویسید یک تابع خالص است.** این بدان معنی است که کامپوننت های React که می نویسید باید همیشه همان JSX را با توجه به ورودی های یکسان برگردانند:
 
 <Sandpack>
 
