@@ -4,6 +4,42 @@ title: Updating Arrays in State
 
 <Intro>
 
+
+سلام! بهترین راه برای پیدا کردن یک آبجکت با id منحصر به فرد درون یک آرایه، استفاده از متد `findIndex` است. این متد، شماره ایندکس آبجکت مورد نظر را در آرایه برمی‌گرداند. سپس با استفاده از شماره ایندکس، می‌توانید آبجکت مورد نظر را پیدا کنید. 
+
+این متد، با سرعت بیشتری نسبت به `find` کار می‌کند. برای استفاده از این متد، کافیست یک تابع callback برای آن تعریف کنید. این تابع، باید یک آرگومان داشته باشد و برای هر آیتم در آرایه، باید یک شرط بررسی کند. اگر شرط برای یک آیتم برقرار باشد، شماره ایندکس آن آیتم برگردانده می‌شود. در غیر این صورت، `-1` برگردانده می‌شود.
+
+اینجا یک مثال از استفاده از `findIndex` برای پیدا کردن یک آبجکت با `id` منحصر به فرد درون یک آرایه را می‌بینید:
+
+```javascript
+const myArray = [{id: 1, name: 'John'}, {id: 2, name: 'Jane'}, {id: 3, name: 'Bob'}];
+const idToFind = 2;
+
+const index = myArray.findIndex(obj => obj.id === idToFind);
+
+if (index !== -1) {
+  console.log(`Found object at index ${index}:`, myArray[index]);
+} else {
+  console.log(`Object with id ${idToFind} not found in array`);
+}
+```
+
+/////////////////////////////////
+
+`createEntityAdapter` یک تابع در `Redux Toolkit` است که یک مجموعه از `reducer` ها و `selector` های پیش ساخته برای انجام عملیات CRUD روی یک ساختار داده نرمال شده حاوی نمونه هایی از یک نوع خاص از اشیاء داده ایجاد می کند. این توابع `reducer` می توانند به عنوان `case reducer` ها به `createReducer` و `createSlice` منتقل شوند. همچنین می توانند به عنوان توابع کمکی "mutating" در داخل `createReducer` و `createSlice` استفاده شوند. این API از کتابخانه `@ngrx/entity` ساخته شده توسط NgRx maintainers به `Redux Toolkit` منتقل شده است، اما برای استفاده با `Redux Toolkit` به طور قابل توجهی اصلاح شده است. ترم "Entity" برای ارجاع به نوع منحصر به فردی از شیء داده در برنامه استفاده می شود. برای مثال، در یک برنامه وبلاگ نویسی، شما ممکن است دارای شیء های داده ای User، Post و Comment باشید، که بسیاری از نمونه های هر کدام در کلاینت ذخیره شده و در سرور ذخیره می شوند. User یک "entity" است - یک نوع منحصر به فرد از شیء داده که برنامه از آن استفاده می کند. فرض می شود هر نمونه یک شناسه یکتا در یک فیلد خاص دارد. همانطور که در تمام منطق Redux، فقط اشیاء و آرایه های JS ساده باید به فروشگاه منتقل شوند - هیچ نمونه کلاسی نباید به فروشگاه منتقل شود! برای این منظور، ما از Entity برای ارجاع به نوع داده خاصی استفاده می کنیم که توسط یک نسخه از منطق `reducer` در یک بخش خاص از درخت حالت Redux مدیریت می شود، و از entity برای ارجاع به یک نمونه از آن نوع استفاده می شود. توابع تولید شده توسط `createEntityAdapter` همه یک ساختار "entity state" را که شامل موارد زیر است، تغییر می دهند:
+
+```
+{
+  ids: [],
+  entities: {}
+}
+```
+
+`createEntityAdapter` می تواند در یک برنامه چند بار فراخوانی شود. اگر از آن با JavaScript ساده استفاده می کنید، ممکن است بتوانید یک تعریف adapter را با چندین نوع entity مشابه استفاده کنید، اگر آنها به اندازه کافی شبیه هم باشند (مانند داشتن یک فیلد entity.id). برای استفاده از TypeScript، شما باید برای هر ن
+
+///////////////////////////////
+
+
 Arrays are mutable in JavaScript, but you should treat them as immutable when you store them in state. Just like with objects, when you want to update an array stored in state, you need to create a new one (or make a copy of an existing one), and then set state to use the new array.
 
 </Intro>
