@@ -5,6 +5,9 @@ title: Choosing the State Structure
 <Intro>
 
 Structuring state well can make a difference between a component that is pleasant to modify and debug, and one that is a constant source of bugs. Here are some tips you should consider when structuring state.
+////////////////////
+ساختار داده state را به خوبی طراحی کردن می‌تواند تفاوتی بین یک کامپوننتی که به راحتی قابل تغییر و اصلاح است و یک کامپوننتی که منبعی برای باگ‌های مداوم است، ایجاد کند. در ادامه چند نکته‌ای را که باید در زمان طراحی ساختار داده state در نظر داشته باشید، برای شما توضیح می‌دهیم.
+
 
 </Intro>
 
@@ -14,27 +17,49 @@ Structuring state well can make a difference between a component that is pleasan
 * What to avoid when organizing state
 * How to fix common issues with the state structure
 
+/////////
+زمانی که می‌خواهید از یک متغیر state تنها استفاده کنید و زمانی که باید از چندین متغیر state استفاده کنید، باید به دقت تصمیم بگیرید. همچنین، باید از ساختار مناسب برای داده state استفاده کنید تا از ایجاد باگ‌های مداوم جلوگیری شود. در ادامه چند نکته‌ای را که باید در زمان طراحی ساختار داده state در نظر داشته باشید، برای شما توضیح می‌دهیم.
+
 </YouWillLearn>
 
-## Principles for structuring state {/*principles-for-structuring-state*/}
+## Principles for structuring state(اصول ساختاردهی state) {/*principles-for-structuring-state*/}
 
 When you write a component that holds some state, you'll have to make choices about how many state variables to use and what the shape of their data should be. While it's possible to write correct programs even with a suboptimal state structure, there are a few principles that can guide you to make better choices:
+////////////////////////////
+زمانی که شما یک کامپوننت را که دارای برخی از state ها است، می‌نویسید، باید در مورد اینکه چندین متغیر state باید استفاده کنید و شکل داده‌های آن‌ها چگونه باشد، تصمیم بگیرید. هر چند که با ساختار suboptimal state هم می‌توان برنامه‌های صحیحی را نوشت، اما چندین اصلی وجود دارد که می‌تواند شما را در انتخاب بهتر راهنمایی کند.
+
 
 1. **Group related state.** If you always update two or more state variables at the same time, consider merging them into a single state variable.
 2. **Avoid contradictions in state.** When the state is structured in a way that several pieces of state may contradict and "disagree" with each other, you leave room for mistakes. Try to avoid this.
 3. **Avoid redundant state.** If you can calculate some information from the component's props or its existing state variables during rendering, you should not put that information into that component's state.
 4. **Avoid duplication in state.** When the same data is duplicated between multiple state variables, or within nested objects, it is difficult to keep them in sync. Reduce duplication when you can.
 5. **Avoid deeply nested state.** Deeply hierarchical state is not very convenient to update. When possible, prefer to structure state in a flat way.
+///////////////////////////////////////////////////////
+
+زمانی که می‌خواهید از یک متغیر state تنها استفاده کنید و زمانی که باید از چندین متغیر state استفاده کنید، باید به دقت تصمیم بگیرید. همچنین، باید از ساختار مناسب برای داده state استفاده کنید تا از ایجاد باگ‌های مداوم جلوگیری شود. در ادامه چند نکته‌ای را که باید در زمان طراحی ساختار داده state در نظر داشته باشید، برای شما توضیح می‌دهیم:
+
+1. **گروه‌بندی state های مرتبط.** اگر همیشه دو یا بیشتر از متغیرهای state را در یک زمان به‌روزرسانی می‌کنید، در نظر داشته باشید که آن‌ها را در یک متغیر state ترکیب کنید.
+2. **اجتناب از تناقض در state.** زمانی که state به گونه‌ای ساختاردهی شده است که چندین قسمت از state ممکن است با یکدیگر تناقض داشته باشند، شما فرصتی برای اشتباهات را فراهم می‌کنید. سعی کنید از این موضوع اجتناب کنید.
+3. **اجتناب از state تکراری.** اگر می‌توانید برخی از اطلاعات را از props کامپوننت یا متغیرهای state موجود در زمان رندرینگ محاسبه کنید، نباید آن اطلاعات را در state کامپوننت قرار دهید.
+4. **اجتناب از تکرار در state.** زمانی که داده‌های یکسانی بین چندین متغیر state یا در شی‌های تو در تو تکرار می‌شوند، سخت است که آن‌ها را همگام نگه دارید. در صورت امکان، تکرار را کاهش دهید.
+5. **اجتناب از state با ساختار تو در تو عمیق.** ساختار state با سلسله مراتب عمیق، برای به‌روزرسانی مناسب نیست. در صورت امکان، از ساختار سلسله مراتبی عمیق اجتناب کنید.
+
 
 The goal behind these principles is to *make state easy to update without introducing mistakes*. Removing redundant and duplicate data from state helps ensure that all its pieces stay in sync. This is similar to how a database engineer might want to ["normalize" the database structure](https://docs.microsoft.com/en-us/office/troubleshoot/access/database-normalization-description) to reduce the chance of bugs. To paraphrase Albert Einstein, **"Make your state as simple as it can be--but no simpler."**
+/////////////////////////////
+هدف پشت این اصول، ساده کردن به‌روزرسانی state بدون معرفی اشتباهات است. حذف داده‌های تکراری و تکراری از state، به کمک این کمک می‌کند که تمام قطعات آن همگام باقی بمانند. این مشابه بازیابی ساختار پایگاه داده توسط یک مهندس پایگاه داده است که ممکن است برای کاهش فرصت بروز باگ‌ها، ساختار پایگاه داده را “normalize” کند. به عبارتی دیگر، “state خود را به ساده‌ترین شکل ممکن بسازید - اما نه بیشتر.”، به نقل از آلبرت اینشتین.
 
 Now let's see how these principles apply in action.
+//////////
+حال بیایید ببینیم این اصول چگونه در عمل اعمال می شوند.
 
-## Group related state {/*group-related-state*/}
+## Group related state(state مرتبط با گروه) {/*group-related-state*/}
 
 You might sometimes be unsure between using a single or multiple state variables.
-
+/////////////////
+ممکن است گاهی اوقات بین استفاده از یک یا چند متغیر state مطمئن نباشید.
 Should you do this?
+آیا باید این کار را انجام دهید؟
 
 ```js
 const [x, setX] = useState(0);
@@ -48,6 +73,8 @@ const [position, setPosition] = useState({ x: 0, y: 0 });
 ```
 
 Technically, you can use either of these approaches. But **if some two state variables always change together, it might be a good idea to unify them into a single state variable.** Then you won't forget to always keep them in sync, like in this example where moving the cursor updates both coordinates of the red dot:
+/////////////////////////////////
+از نظر فنی، می‌توانید از هر دو رویکرد استفاده کنید. اما اگر برخی از دو متغیر state همیشه با هم تغییر می‌کنند، بهتر است آن‌ها را در یک متغیر state ترکیب کنید. در این صورت، همیشه به یاد داشته باشید که آن‌ها را همیشه هماهنگ نگه دارید، مانند این مثال که حرکت دادن نشانگر، هر دو مختصات نقطه قرمز را به‌روزرسانی می‌کند.
 
 <Sandpack>
 
@@ -94,16 +121,22 @@ body { margin: 0; padding: 0; height: 250px; }
 </Sandpack>
 
 Another case where you'll group data into an object or an array is when you don't know how many pieces of state you'll need. For example, it's helpful when you have a form where the user can add custom fields.
+///////////////////////////////
+اگر متغیر state شما یک شی است، به یاد داشته باشید که [نمی‌توانید فقط یک فیلد آن را به‌روزرسانی کنید](/learn/updating-objects-in-state) بدون کپی صریح دیگر فیلدها. به عنوان مثال، در مثال بالا نمی‌توانید `setPosition({ x: 100 })` را انجام دهید زیرا اصلا خصوصیت `y` را ندارد! به جای آن، اگر می‌خواستید فقط `x` را تنظیم کنید، یا با `setPosition({ ...position, x: 100 })` آن‌ها را به دو متغیر state تقسیم کنید و `setX(100)` را انجام دهید.
 
 <Pitfall>
 
 If your state variable is an object, remember that [you can't update only one field in it](/learn/updating-objects-in-state) without explicitly copying the other fields. For example, you can't do `setPosition({ x: 100 })` in the above example because it would not have the `y` property at all! Instead, if you wanted to set `x` alone, you would either do `setPosition({ ...position, x: 100 })`, or split them into two state variables and do `setX(100)`.
+/////////////////////////////////////////
+یکی دیگر از مواردی که ممکن است داده‌ها را در یک شی یا آرایه گروه‌بندی کنید، زمانی است که تعداد قطعات state مورد نیاز خود را نمی‌دانید. به عنوان مثال، زمانی که فرمی دارید که کاربر می‌تواند فیلدهای سفارشی اضافه کند، مفید است.
 
 </Pitfall>
 
-## Avoid contradictions in state {/*avoid-contradictions-in-state*/}
+## Avoid contradictions in state(اجتناب از تناقض در state) {/*avoid-contradictions-in-state*/}
 
 Here is a hotel feedback form with `isSending` and `isSent` state variables:
+///////////////////
+در اینجا یک فرم بازخورد هتل با متغیرهای حالت «isSending» و «isSent» آمده است:
 
 <Sandpack>
 
@@ -158,8 +191,13 @@ function sendMessage(text) {
 </Sandpack>
 
 While this code works, it leaves the door open for "impossible" states. For example, if you forget to call `setIsSent` and `setIsSending` together, you may end up in a situation where both `isSending` and `isSent` are `true` at the same time. The more complex your component is, the harder it is to understand what happened.
+/////////////////////////////
+این کد در حالت کاری که هست، درب را برای "حالت‌های غیرممکن" باز می‌گذارد. به عنوان مثال، اگر فراموش کنید `setIsSent` و `setIsSending` را به‌صورت همزمان فراخوانی کنید، ممکن است در موقعیتی قرار بگیرید که هر دو `isSending` و `isSent` به‌صورت همزمان `true` باشند. هر چه کامپوننت شما پیچیده‌تر باشد، درک آنچه اتفاق افتاده سخت‌تر خواهد بود.
 
 **Since `isSending` and `isSent` should never be `true` at the same time, it is better to replace them with one `status` state variable that may take one of *three* valid states:** `'typing'` (initial), `'sending'`, and `'sent'`:
+
+/////////////////////////////////
+زیرا isSending و isSent هرگز به‌صورت همزمان true نباید باشند، بهتر است آن‌ها را با یک متغیر state status جایگزین کنید که می‌تواند یکی از سه حالت معتبر را داشته باشد: 'typing' (ابتدایی)، 'sending' و 'sent'.
 
 <Sandpack>
 
@@ -215,6 +253,7 @@ function sendMessage(text) {
 </Sandpack>
 
 You can still declare some constants for readability:
+هنوز هم می توانید برخی از ثابت ها را برای خوانایی اعلام کنید:
 
 ```js
 const isSending = status === 'sending';
@@ -222,12 +261,20 @@ const isSent = status === 'sent';
 ```
 
 But they're not state variables, so you don't need to worry about them getting out of sync with each other.
+//////////////////////
+اما آنها متغیرهای state نیستند، بنابراین لازم نیست نگران عدم هماهنگی آنها با یکدیگر باشید.
 
-## Avoid redundant state {/*avoid-redundant-state*/}
+## Avoid redundant state(از state اضافی اجتناب کنید) {/*avoid-redundant-state*/}
 
 If you can calculate some information from the component's props or its existing state variables during rendering, you **should not** put that information into that component's state.
+//////////////////////////
+اگر بتوانید برخی از اطلاعات را از اجزای کامپوننت یا متغیرهای state موجود آن در حین رندر محاسبه کنید، **نباید** آن اطلاعات را در state آن component قرار دهید.
+///////////////////////
+اگر می‌توانید در زمان رندرینگ برخی از اطلاعات را از props کامپوننت یا متغیرهای state موجود آن محاسبه کنید، نباید آن اطلاعات را در state کامپوننت قرار دهید.
 
 For example, take this form. It works, but can you find any redundant state in it?
+/////////////////////////////
+به عنوان مثال، این فرم را در نظر بگیرید. کار می‌کند، اما آیا می‌توانید هرگونه داده‌ی تکراری در آن را پیدا کنید؟
 
 <Sandpack>
 
@@ -281,8 +328,12 @@ label { display: block; margin-bottom: 5px; }
 </Sandpack>
 
 This form has three state variables: `firstName`, `lastName`, and `fullName`. However, `fullName` is redundant. **You can always calculate `fullName` from `firstName` and `lastName` during render, so remove it from state.**
+///////////////////////////////////
+این فرم سه متغیر state دارد: firstName، lastName و fullName. با این حال، fullName تکراری است. شما همیشه می‌توانید fullName را از firstName و lastName در زمان رندرینگ محاسبه کنید، بنابراین آن را از state حذف کنید.
+
 
 This is how you can do it:
+به این صورت می توانید این کار را انجام دهید:
 
 <Sandpack>
 
@@ -335,18 +386,25 @@ label { display: block; margin-bottom: 5px; }
 </Sandpack>
 
 Here, `fullName` is *not* a state variable. Instead, it's calculated during render:
+در اینجا، fullName یک متغیر state نیست. به جای آن، در زمان رندرینگ محاسبه می‌شود:
 
 ```js
 const fullName = firstName + ' ' + lastName;
 ```
 
 As a result, the change handlers don't need to do anything special to update it. When you call `setFirstName` or `setLastName`, you trigger a re-render, and then the next `fullName` will be calculated from the fresh data.
+////////////////////////////////////////
+در نتیجه، کنترل کننده تغییرات نیازی به انجام کار خاصی برای به روز رسانی آن ندارد. وقتی «setFirstName» یا «setLastName» را صدا می‌زنید، یک رندر مجدد را راه‌اندازی می‌کنید و سپس «نام کامل» بعدی از داده‌های تازه محاسبه می‌شود.
+///////////////////////////////////////////
+به همین دلیل، change handler ها نیازی به انجام هیچ کار خاصی برای به‌روزرسانی آن ندارند. زمانی که setFirstName یا setLastName را فراخوانی می‌کنید، یک بازنمایی دوباره ایجاد می‌کنید، و سپس fullName بعدی از داده‌های تازه محاسبه می‌شود.
+
 
 <DeepDive>
 
-#### Don't mirror props in state {/*don-t-mirror-props-in-state*/}
+#### Don't mirror props in state(props را در state بازتاب نکنید) {/*don-t-mirror-props-in-state*/}
 
 A common example of redundant state is code like this:
+یک مثال رایج از استیت اضافی کدی مانند این است:
 
 ```js
 function Message({ messageColor }) {
@@ -354,8 +412,12 @@ function Message({ messageColor }) {
 ```
 
 Here, a `color` state variable is initialized to the `messageColor` prop. The problem is that **if the parent component passes a different value of `messageColor` later (for example, `'red'` instead of `'blue'`), the `color` *state variable* would not be updated!** The state is only initialized during the first render.
+/////////////////////////
+در اینجا، یک متغیر state به نام `color` با `messageColor` prop مقداردهی اولیه شده است. مشکل این است که **اگر کامپوننت والد بعداً مقدار متفاوتی از `messageColor` را منتقل کند (به عنوان مثال، `'red'` به جای `'blue'`)، متغیر state `color` به‌روزرسانی نمی‌شود!** state فقط در زمان رندرینگ اولیه مقداردهی می‌شود.
 
 This is why "mirroring" some prop in a state variable can lead to confusion. Instead, use the `messageColor` prop directly in your code. If you want to give it a shorter name, use a constant:
+//////////////////////////////
+به همین دلیل، "تکرار" برخی از prop ها در یک متغیر state می‌تواند منجر به ابهام شود. به جای آن، `messageColor` prop را به‌صورت مستقیم در کد خود استفاده کنید. اگر می‌خواهید به آن یک نام کوتاه‌تر بدهید، از یک ثابت استفاده کنید:
 
 ```js
 function Message({ messageColor }) {
@@ -365,6 +427,11 @@ function Message({ messageColor }) {
 This way it won't get out of sync with the prop passed from the parent component.
 
 "Mirroring" props into state only makes sense when you *want* to ignore all updates for a specific prop. By convention, start the prop name with `initial` or `default` to clarify that its new values are ignored:
+///////////////////////////////////////
+این روش باعث می‌شود که مقدار state با prop از کامپوننت والد هماهنگ باشد.
+
+"تکرار" prop ها در state فقط زمانی معنی دارد که می‌خواهید تمام به‌روزرسانی‌ها را برای یک prop خاص نادیده بگیرید. به طور معمول، نام prop را با `initial` یا `default` شروع کنید تا واضح شود که مقادیر جدید آن نادیده گرفته می‌شوند:
+
 
 ```js
 function Message({ initialColor }) {
@@ -375,9 +442,11 @@ function Message({ initialColor }) {
 
 </DeepDive>
 
-## Avoid duplication in state {/*avoid-duplication-in-state*/}
+## Avoid duplication in state(از تکرار در حالت خودداری کنید) {/*avoid-duplication-in-state*/}
 
 This menu list component lets you choose a single travel snack out of several:
+این کامپوننت لیست منو به شما اجازه می‌دهد تا یکی از چندین خوراکی سفر را انتخاب کنید.
+
 
 <Sandpack>
 
@@ -425,6 +494,11 @@ button { margin-top: 10px; }
 Currently, it stores the selected item as an object in the `selectedItem` state variable. However, this is not great: **the contents of the `selectedItem` is the same object as one of the items inside the `items` list.** This means that the information about the item itself is duplicated in two places.
 
 Why is this a problem? Let's make each item editable:
+//////////////////////////
+در حال حاضر، مورد انتخاب شده را به عنوان یک شی در متغیر state selectedItem ذخیره می‌کند. با این حال، این خوب نیست: محتوای selectedItem همان شیءی است که در یکی از موارد داخل لیست items وجود دارد. این بدان معناست که اطلاعات مربوط به خود مورد، در دو مکان تکرار شده است.
+
+چرا این یک مشکل است؟ بیایید هر مورد را قابل ویرایش کنیم:
+
 
 <Sandpack>
 
@@ -488,8 +562,13 @@ button { margin-top: 10px; }
 </Sandpack>
 
 Notice how if you first click "Choose" on an item and *then* edit it, **the input updates but the label at the bottom does not reflect the edits.** This is because you have duplicated state, and you forgot to update `selectedItem`.
+///////////////////////////////////
+توجه کنید که اگر ابتدا روی “انتخاب” در یک مورد کلیک کنید و سپس آن را ویرایش کنید، ورودی به‌روزرسانی می‌شود اما برچسب در پایین تغییرات را نشان نمی‌دهد. این به دلیل تکرار state است و شما فراموش کرده‌اید که selectedItem را به‌روزرسانی کنید.
+
 
 Although you could update `selectedItem` too, an easier fix is to remove duplication. In this example, instead of a `selectedItem` object (which creates a duplication with objects inside `items`), you hold the `selectedId` in state, and *then* get the `selectedItem` by searching the `items` array for an item with that ID:
+////////////////////////////////////////
+اگرچه می‌توانید `selectedItem` را نیز به‌روزرسانی کنید، اما راه‌حلی آسان‌تر از حذف تکرار است. در این مثال، به‌جای یک شی `selectedItem` (که با شی‌های داخل `items` تکرار ایجاد می‌کند)، شما `selectedId` را در state نگه می‌دارید، و سپس با جستجوی آرایه `items` برای یافتن یک مورد با آن ID، `selectedItem` را *دریافت* می‌کنید.
 
 <Sandpack>
 
@@ -557,6 +636,9 @@ button { margin-top: 10px; }
 (Alternatively, you may hold the selected index in state.)
 
 The state used to be duplicated like this:
+(به طور متناوب، می توانید شاخص انتخاب شده را در state نگه دارید.)
+
+state قبلاً به صورت زیر تکرار می شد:
 
 * `items = [{ id: 0, title: 'pretzels'}, ...]`
 * `selectedItem = {id: 0, title: 'pretzels'}`
