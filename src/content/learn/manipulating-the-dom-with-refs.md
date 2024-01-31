@@ -790,7 +790,13 @@ However, this doesn't mean that you can't do it at all. It requires caution. **Y
 - A component doesn't expose its DOM nodes by default. You can opt into exposing a DOM node by using `forwardRef` and passing the second `ref` argument down to a specific node.
 - Avoid changing DOM nodes managed by React.
 - If you do modify DOM nodes managed by React, modify parts that React has no reason to update.
-
+////////////////////
+- Ref ها یک مفهوم کلی هستند، اما بیشتر اوقات از آن‌ها برای نگه‌داری عناصر DOM استفاده می‌شود.
+- شما با گذراندن `<div ref={myRef}>` به React دستور می‌دهید تا یک عنصر DOM را در `myRef.current` قرار دهد.
+- معمولاً از Ref ها برای اعمال غیرمخرب مانند فوکوس، اسکرول یا اندازه‌گیری عناصر DOM استفاده می‌شود.
+- یک کامپوننت به طور پیش‌فرض عناصر DOM خود را نشان نمی‌دهد. شما می‌توانید با استفاده از `forwardRef` و انتقال دادن دومین آرگومان `ref` به یک عنصر خاص، به نمایش گذاشتن یک عنصر DOM پیوست کنید.
+- از تغییر عناصر DOM که توسط React مدیریت می‌شوند، خودداری کنید.
+- اگر شما عناصر DOM که توسط React مدیریت می‌شوند را تغییر دهید، بخش‌هایی را که React هیچ دلیلی برای به‌روزرسانی آن‌ها ندارد، تغییر دهید.
 </Recap>
 
 
