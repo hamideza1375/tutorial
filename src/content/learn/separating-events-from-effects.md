@@ -1175,6 +1175,10 @@ button { margin: 10px; }
 As usual, when you're looking for bugs in Effects, start by searching for linter suppressions.
 
 If you remove the suppression comment, React will tell you that this Effect's code depends on `increment`, but you "lied" to React by claiming that this Effect does not depend on any reactive values (`[]`). Add `increment` to the dependency array:
+///////////////
+ترجمه: همانطور که معمول است، هنگامی که به دنبال باگ‌ها در افکت‌ها هستید، با جستجوی سرکوب کننده لینتر شروع کنید.
+
+اگر شرایط سرکوب را بردارید، React به شما خواهد گفت که کد این افکت به `increment` وابسته است، اما شما با ادعای اینکه این افکت به هیچ مقدار واکنشی (`[]`) وابسته نیست، به React دروغ گفته‌اید. `increment` را به آرایه وابستگی اضافه کنید:²
 
 <Sandpack>
 
@@ -1223,6 +1227,8 @@ button { margin: 10px; }
 </Sandpack>
 
 Now, when `increment` changes, React will re-synchronize your Effect, which will restart the interval.
+///////////////
+حالا، هنگامی که `increment` تغییر می‌کند، React افکت شما را مجدداً همگام می‌کند و باعث شروع دوباره فاصله زمانی می‌شود¹.
 
 </Solution>
 
@@ -1232,9 +1238,16 @@ This `Timer` component keeps a `count` state variable which increases every seco
 
 There is a small issue with this user interface. You might notice that if you keep pressing the plus or minus buttons faster than once per second, the timer itself seems to pause. It only resumes after a second passes since the last time you've pressed either button. Find why this is happening, and fix the issue so that the timer ticks on *every* second without interruptions.
 
+/////////////////
+این کامپوننت `Timer` یک متغیر وضعیت `count` را نگه می‌دارد که هر ثانیه افزایش می‌یابد. مقداری که افزایش می‌یابد در متغیر وضعیت `increment` ذخیره شده است که می‌توانید با دکمه‌های پلاس و منهایی که در دسترس هستند، آن را کنترل کنید. به عنوان مثال، تلاش کنید نه بار دکمه پلاس را فشار دهید و توجه کنید که `count` هر ثانیه به جای یک، ده واحد افزایش می‌یابد.
+
+یک مشکل کوچک در این رابط کاربری وجود دارد. ممکن است متوجه شوید که اگر دکمه‌های پلاس یا منهایی را سریع‌تر از یک بار در ثانیه فشار دهید، تایمر به نظر می‌رسد متوقف می‌شود. فقط پس از گذشت یک ثانیه از زمانی که آخرین بار دکمه‌ای را فشار داده‌اید، ادامه می‌یابد. دلیل این اتفاق را پیدا کنید و مشکل را برطرف کنید تا تایمر بدون وقفه هر ثانیه برای شما تیک بزند.⁵
+
 <Hint>
 
 It seems like the Effect which sets up the timer "reacts" to the `increment` value. Does the line that uses the current `increment` value in order to call `setCount` really need to be reactive?
+/////////
+ترجمه: به نظر می‌رسد که افکتی که تایمر را راه‌اندازی می‌کند، به مقدار `increment` واکنش نشان می‌دهد. آیا خطی که برای فراخوانی `setCount` از مقدار فعلی `increment` استفاده می‌کند، واکنشی باید داشته باشد؟
 
 </Hint>
 
@@ -1306,6 +1319,10 @@ button { margin: 10px; }
 The issue is that the code inside the Effect uses the `increment` state variable. Since it's a dependency of your Effect, every change to `increment` causes the Effect to re-synchronize, which causes the interval to clear. If you keep clearing the interval every time before it has a chance to fire, it will appear as if the timer has stalled.
 
 To solve the issue, extract an `onTick` Effect Event from the Effect:
+//////////////
+ترجمه: مشکل این است که کد داخل افکت از متغیر وضعیت `increment` استفاده می‌کند. از آنجایی که این یک وابستگی افکت شماست، هر تغییر در `increment` باعث می‌شود که افکت همگام‌سازی شود، که باعث پاک شدن فاصله زمانی می‌شود. اگر هر بار قبل از اینکه فاصله زمانی فعال شود، آن را پاک کنید، به نظر می‌رسد که تایمر متوقف شده است.
+
+برای حل مشکل، یک "رویداد اثر" با نام `onTick` را از افکت استخراج کنید:¹
 
 <Sandpack>
 
@@ -1376,16 +1393,22 @@ button { margin: 10px; }
 </Sandpack>
 
 Since `onTick` is an Effect Event, the code inside it isn't reactive. The change to `increment` does not trigger any Effects.
+//////////
+ترجمه: از آنجایی که `onTick` یک "رویداد اثر" است، کد داخل آن واکنشی نشان نمی‌دهد. تغییر در `increment` هیچ اثری را فعال نمی‌کند.¹
 
 </Solution>
 
 #### Fix a non-adjustable delay {/*fix-a-non-adjustable-delay*/}
 
 In this example, you can customize the interval delay. It's stored in a `delay` state variable which is updated by two buttons. However, even if you press the "plus 100 ms" button until the `delay` is 1000 milliseconds (that is, a second), you'll notice that the timer still increments very fast (every 100 ms). It's as if your changes to the `delay` are ignored. Find and fix the bug.
+//////////////
+ترجمه: در این مثال، می‌توانید تأخیر فاصله زمانی را سفارشی کنید. آن را در یک متغیر وضعیت به نام `delay` ذخیره می‌کنید که توسط دو دکمه به‌روزرسانی می‌شود. با این حال، حتی اگر دکمه "plus 100 ms" را تا زمانی که `delay` 1000 میلی‌ثانیه (یعنی یک ثانیه) باشد، فشار دهید، متوجه خواهید شد که تایمر همچنان بسیار سریع افزایش می‌یابد (هر 100 میلی‌ثانیه). به نظر می‌رسد که تغییرات شما در `delay` نادیده گرفته شده‌اند. باگ را پیدا کنید و آن را برطرف کنید.⁴
 
 <Hint>
 
 Code inside Effect Events is not reactive. Are there cases in which you would _want_ the `setInterval` call to re-run?
+////////
+ترجمه: کد داخل "رویدادهای اثر" واکنشی نشان نمی‌دهد. آیا مواردی وجود دارد که شما _می‌خواهید_ فراخوانی `setInterval` دوباره اجرا شود؟¹
 
 </Hint>
 
@@ -1475,6 +1498,8 @@ button { margin: 10px; }
 <Solution>
 
 The problem with the above example is that it extracted an Effect Event called `onMount` without considering what the code should actually be doing. You should only extract Effect Events for a specific reason: when you want to make a part of your code non-reactive. However, the `setInterval` call *should* be reactive with respect to the `delay` state variable. If the `delay` changes, you want to set up the interval from scratch! To fix this code, pull all the reactive code back inside the Effect:
+/////////////
+مشکل با مثال بالا این است که یک "رویداد اثر" به نام `onMount` استخراج شده است، بدون در نظر گرفتن اینکه کد واقعاً چه کاری باید انجام دهد. شما فقط باید "رویدادهای اثر" را به دلیل خاصیت خاصی استخراج کنید: زمانی که می‌خواهید یک بخش از کد خود را غیر واکنشی کنید. با این حال، فراخوانی `setInterval` با توجه به متغیر وضعیت `delay` باید واکنشی باشد. اگر `delay` تغییر کند، می‌خواهید فاصله زمانی را از ابتدا تنظیم کنید! برای رفع این کد، کل کد واکنشی را دوباره داخل افکت بیاورید:¹
 
 <Sandpack>
 
@@ -1555,6 +1580,8 @@ button { margin: 10px; }
 </Sandpack>
 
 In general, you should be suspicious of functions like `onMount` that focus on the *timing* rather than the *purpose* of a piece of code. It may feel "more descriptive" at first but it obscures your intent. As a rule of thumb, Effect Events should correspond to something that happens from the *user's* perspective. For example, `onMessage`, `onTick`, `onVisit`, or `onConnected` are good Effect Event names. Code inside them would likely not need to be reactive. On the other hand, `onMount`, `onUpdate`, `onUnmount`, or `onAfterRender` are so generic that it's easy to accidentally put code that *should* be reactive into them. This is why you should name your Effect Events after *what the user thinks has happened,* not when some code happened to run.
+///////////////
+بطور کلی، باید از توابعی مانند `onMount` که بر روی *زمان* به جای *هدف* یک قطعه کد تمرکز دارند، مشکوک باشید. در ابتدا ممکن است احساس "توصیفات بیشتر" شود، اما این احساس هدف شما را مبهم می‌کند. به عنوان یک قاعده کلی، "رویدادهای اثر" باید با چیزی که از دیدگاه *کاربر* اتفاق می‌افتد، مطابقت داشته باشند. به عنوان مثال، `onMessage`، `onTick`، `onVisit` یا `onConnected` نام‌های خوبی برای "رویدادهای اثر" هستند. کد داخل آنها احتمالاً نیازی به واکنش نشان نمی‌دهد. از سوی دیگر، `onMount`، `onUpdate`، `onUnmount` یا `onAfterRender` به گونه‌ای عمومی هستند که آسان است که به طور تصادفی کدی را که *باید* واکنشی باشد، در آن قرار دهید. به همین دلیل باید "رویدادهای اثر" خود را بر اساس *آنچه کاربر فکر می‌کند که اتفاق افتاده است* نامگذاری کنید، نه زمانی که بعضی از کد اجرا شده است.¹
 
 </Solution>
 
@@ -1565,10 +1592,18 @@ When you join a chat room, this component shows a notification. However, it does
 This almost works, but there is a bug. Try changing the dropdown from "general" to "travel" and then to "music" very quickly. If you do it fast enough, you will see two notifications (as expected!) but they will *both* say "Welcome to music".
 
 Fix it so that when you switch from "general" to "travel" and then to "music" very quickly, you see two notifications, the first one being "Welcome to travel" and the second one being "Welcome to music". (For an additional challenge, assuming you've *already* made the notifications show the correct rooms, change the code so that only the latter notification is displayed.)
+//////////////////
+وقتی به یک اتاق چت می‌پیوندید، این کامپوننت یک اعلان نشان می‌دهد. با این حال، این اعلان به صورت فوری نشان داده نمی‌شود. به جای آن، اعلان به صورت مصنوعی به مدت دو ثانیه تأخیر داده می‌شود تا کاربر فرصتی برای نگاه کردن به رابط کاربری داشته باشد.
+
+این تقریباً کار می‌کند، اما یک باگ وجود دارد. سعی کنید در سریعی از "عمومی" به "سفر" و سپس به "موسیقی" تغییر دهید. اگر به اندازه کافی سریع انجام دهید، دو اعلان (همانطور که انتظار می‌رود!) را خواهید دید، اما هر دوی آنها "به موسیقی خوش آمدید" خواهند گفت.
+
+برای رفع مشکل، آن را به گونه‌ای تغییر دهید که هنگامی که از "عمومی" به "سفر" و سپس به "موسیقی" بسیار سریع تغییر می‌دهید، دو اعلان را مشاهده کنید، اولین آنها "به سفر خوش آمدید" و دومین آنها "به موسیقی خوش آمدید" باشد. (برای چالش بیشتر، با فرض اینکه شما *قبلاً* اعلان‌ها را برای اتاق‌های درست نشان داده‌اید، کد را به گونه‌ای تغییر دهید که فقط آخرین اعلان نمایش داده شود.)¹
 
 <Hint>
 
 Your Effect knows which room it connected to. Is there any information that you might want to pass to your Effect Event?
+/////////
+افکت شما می‌داند به کدام اتاق متصل شده است. آیا اطلاعاتی وجود دارد که ممکن است بخواهید به "رویداد اثر" خود منتقل کنید؟¹
 
 </Hint>
 
@@ -1712,6 +1747,12 @@ Inside your Effect Event, `roomId` is the value *at the time Effect Event was ca
 Your Effect Event is called with a two second delay. If you're quickly switching from the travel to the music room, by the time the travel room's notification shows, `roomId` is already `"music"`. This is why both notifications say "Welcome to music".
 
 To fix the issue, instead of reading the *latest* `roomId` inside the Effect Event, make it a parameter of your Effect Event, like `connectedRoomId` below. Then pass `roomId` from your Effect by calling `onConnected(roomId)`:
+//////////////
+در داخل "رویداد اثر" شما، `roomId` مقداری است *در زمانی که رویداد اثر فراخوانی شده است*.
+
+"رویداد اثر" شما با تأخیر دو ثانیه فراخوانی می‌شود. اگر شما به سرعت از اتاق سفر به اتاق موسیقی تغییر دهید، در زمانی که اعلان اتاق سفر نمایش داده می‌شود، `roomId` قبلاً `"music"` شده است. به همین دلیل هر دو اعلان "به موسیقی خوش آمدید" را می‌بینید.
+
+برای رفع مشکل، به جای خواندن `roomId` *آخرین* در داخل "رویداد اثر"، آن را به عنوان پارامتری از "رویداد اثر" خود بردارید، مانند `connectedRoomId` در زیر. سپس با فراخوانی `onConnected(roomId)`، `roomId` را از افکت خود عبور دهید:¹
 
 <Sandpack>
 
@@ -1849,6 +1890,10 @@ label { display: block; margin-top: 10px; }
 The Effect that had `roomId` set to `"travel"` (so it connected to the `"travel"` room) will show the notification for `"travel"`. The Effect that had `roomId` set to `"music"` (so it connected to the `"music"` room) will show the notification for `"music"`. In other words, `connectedRoomId` comes from your Effect (which is reactive), while `theme` always uses the latest value.
 
 To solve the additional challenge, save the notification timeout ID and clear it in the cleanup function of your Effect:
+////////////////
+"افکت" که `roomId` را به `"travel"` تنظیم کرده بود (بنابراین به اتاق `"travel"` متصل شده بود) اعلان را برای `"travel"` نشان خواهد داد. "افکت" که `roomId` را به `"music"` تنظیم کرده بود (بنابراین به اتاق `"music"` متصل شده بود) اعلان را برای `"music"` نشان خواهد داد. به عبارت دیگر، `connectedRoomId` از "افکت" شما (که واکنشی است) می‌آید، در حالی که `theme` همیشه از آخرین مقدار استفاده می‌کند.
+
+برای حل چالش اضافی، شناسه توقف اعلان را ذخیره کرده و آن را در تابع پاک‌سازی "افکت" خود پاک کنید:
 
 <Sandpack>
 
@@ -1990,6 +2035,8 @@ label { display: block; margin-top: 10px; }
 </Sandpack>
 
 This ensures that already scheduled (but not yet displayed) notifications get cancelled when you change rooms.
+//////////
+این اطمینان داده می‌شود که اعلان‌های قبلاً برنامه‌ریزی شده (اما هنوز نشان داده نشده) هنگام تغییر اتاق‌ها لغو می‌شوند.¹
 
 </Solution>
 
